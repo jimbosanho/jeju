@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>濟州島行程總覽｜週曆</title>
+  <meta name="description" content="濟州島5天4夜行程週曆，X軸日期、Y軸時間，依活動類型著色。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1117;
+      --surface:  #181b27;
+      --surface2: #21253a;
+      --border:   rgba(255,255,255,0.07);
+      --text:     #f0f0f0;
+      --dim:      #666;
+      --hour-h:   84px;
+      --time-w:   58px;
+      --day-min:  160px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 1.5rem 1.5rem 1rem;
+      display: flex; align-items: flex-end;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 900;
+      background: linear-gradient(135deg, #f2cc8f, #e07a5f);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    header p { color: var(--dim); font-size: 0.82rem; margin-top: 4px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      color: var(--dim); padding: 8px 18px; border-radius: 50px;
+      font-size: 0.82rem; text-decoration: none; transition: 0.2s; white-space: nowrap;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 8px 16px;
+      padding: 1rem 1.5rem 0.75rem;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #aaa; }
+    .legend-dot  { width: 12px; height: 12px; border-radius: 4px; flex-shrink: 0; }
+    .legend-item.meal .legend-dot { border: 2px solid rgba(255,255,255,0.35); }
+
+    /* ── Highlight band legend ── */
+    .band-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 0 1.5rem 0.75rem; }
+    .band-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #aaa; }
+    .band-swatch { width: 32px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+    /* ── Scroll hint ── */
+    .scroll-hint { text-align: center; font-size: 0.72rem; color: var(--dim); padding: 4px 0 0; display: none; }
+
+    /* ── Calendar Wrapper ── */
+    .cal-outer { padding: 1rem 1rem 3rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .cal-outer::-webkit-scrollbar { height: 6px; }
+    .cal-outer::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .cal-inner { min-width: calc(var(--time-w) + var(--day-min) * 5); }
+
+    /* ── Day Header ── */
+    .cal-head {
+      display: grid; grid-template-columns: var(--time-w) repeat(5, 1fr);
+      position: sticky; top: 0; z-index: 20;
+      background: var(--surface2);
+      border-radius: 12px 12px 0 0; border: 1px solid var(--border); border-bottom: none;
+    }
+    .day-head { padding: 12px 8px; text-align: center; border-left: 1px solid var(--border); }
+    .day-head .ch-num  { font-size: 0.82rem; font-weight: 700; }
+    .day-head .ch-date { font-size: 0.65rem; color: var(--dim); margin-top: 2px; }
+    .day-head .ch-rgn  { font-size: 0.58rem; color: var(--dim); opacity: .7; margin-top: 1px; }
+
+    /* ── Grid Body ── */
+    .cal-body {
+      display: grid; grid-template-columns: var(--time-w) repeat(5, 1fr);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 12px 12px; overflow: hidden;
+      background: var(--surface); position: relative;
+    }
+
+    /* Time column */
+    .time-col {
+      position: sticky; left: 0; z-index: 10;
+      background: var(--surface2); border-right: 1px solid var(--border);
+    }
+    .time-slot {
+      height: var(--hour-h);
+      display: flex; align-items: flex-start; justify-content: flex-end;
+      padding: 4px 6px 0 0;
+      font-size: 0.62rem; font-weight: 600; color: var(--dim);
+      border-bottom: 1px solid var(--border); position: relative;
+    }
+    /* Highlighted time slots in time column */
+    .time-slot.hl-lunch  { background: rgba(230,180,60,0.15); color: #e6b43c; }
+    .time-slot.hl-dinner { background: rgba(220,100,60,0.15); color: #e06440; }
+
+    /* Day columns */
+    .day-col { position: relative; border-left: 1px solid var(--border); }
+    .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: var(--border); pointer-events: none; }
+
+    /* ── Global time highlight bands (lunch/dinner) ── */
+    .time-band {
+      position: absolute; left: 0; right: 0; pointer-events: none; z-index: 1;
+    }
+
+    /* ── Meal band (per-event tinted bg) ── */
+    .meal-band { position: absolute; left: 0; right: 0; pointer-events: none; z-index: 1; }
+
+    /* ── Event Block ── */
+    .event {
+      position: absolute; left: 3px; right: 3px;
+      border-radius: 8px; display: flex; flex-direction: column;
+      justify-content: flex-start; padding: 4px 30px 4px 7px;
+      overflow: hidden; /* 嚴格限制在時段高度內，不撐高 */
+      cursor: default; z-index: 3; color: #fff;
+      transition: filter .2s, transform .15s; border: 1px solid rgba(255,255,255,0.15);
+    }
+    .event:hover { filter: brightness(1.25); transform: scaleX(1.03); z-index: 15; }
+    .event .ev-icon  { font-size: 0.82rem; line-height: 1; margin-bottom: 2px; }
+    .event .ev-label {
+      font-size: 0.75rem; font-weight: 700; line-height: 1.3;
+      word-break: break-all;
+    }
+    .event .ev-time  { font-size: 0.6rem; opacity: .8; margin-top: 2px; }
+    
+    .ev-nav-link {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 26px; height: 26px; border-radius: 6px; 
+      background: rgba(255,255,255,0.2); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 0.85rem; z-index: 20;
+      transition: background .2s, transform .2s; border: 1px solid rgba(255,255,255,0.3);
+    }
+    .ev-nav-link:hover { background: rgba(255,255,255,0.4); transform: translateY(-50%) scale(1.1); }
+    
+    .event.tiny { padding: 2px 5px; justify-content: center; }
+    .event.tiny .ev-time, .event.tiny .ev-nav-link { display: none; }
+    .event.tiny .ev-icon { font-size: 0.65rem; margin: 0; }
+    .event.tiny .ev-label { font-size: 0.62rem; font-weight: 600; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .event.is-meal   { box-shadow: inset 3px 0 0 rgba(255,255,255,0.45); border-width: 1.5px; }
+
+    /* Type colors — 同類型使用同色 */
+    .ec-transport  { background: linear-gradient(150deg, #546e7a, #37474f); }
+    /* 三餐統一使用同色（溫暖橙色） */
+    .ec-breakfast,
+    .ec-lunch,
+    .ec-dinner     { background: linear-gradient(150deg, #e07b30, #b55a18); }
+    .ec-attraction { background: linear-gradient(150deg, #3a86c8, #1f6199); }
+    .ec-activity   { background: linear-gradient(150deg, #27ae60, #1a7d44); }
+    .ec-shopping   { background: linear-gradient(150deg, #8e44ad, #6c2f82); }
+    .ec-flight     { background: linear-gradient(150deg, #00b894, #007a61); }
+    .ec-hotel      { background: linear-gradient(150deg, #607d8b, #455a64); }
+    .ec-cafe       { background: linear-gradient(150deg, #d4a843, #a07a28); }
+
+    /* ── Transit Chip ── */
+    .transit-chip {
+      position: absolute; left: 3px; right: 3px;
+      border-radius: 6px; z-index: 4;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 2px 6px; text-decoration: none; color: #aaa;
+      transition: background .2s, color .2s;
+      overflow: hidden; /* 嚴格限制在間隔高度內 */
+    }
+    .transit-chip:hover { background: rgba(116,185,232,0.12); color: #74b9e8; border-color: rgba(116,185,232,0.3); }
+    .transit-chip .tc-info { font-size: 0.65rem; line-height: 1.2; white-space: normal; }
+    .transit-chip .tc-nav  { font-size: 0.62rem; flex-shrink: 0; margin-left: 4px; opacity: .8; }
+    .transit-chip.tiny-chip .tc-info { display: none; }
+    .transit-chip.tiny-chip { justify-content: center; }
+
+    /* ── Tooltip ── */
+    .tt {
+      position: fixed; z-index: 9999;
+      background: #1c2036; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 12px 16px;
+      max-width: 280px; min-width: 190px;
+      pointer-events: none; opacity: 0;
+      transform: translateY(6px); transition: opacity .2s, transform .2s;
+      box-shadow: 0 8px 32px rgba(0,0,0,.6); font-size: 0.82rem;
+    }
+    .tt.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .tt .tt-time  { font-size:.7rem; color:var(--dim); margin-bottom:4px; }
+    .tt .tt-title { font-weight:700; font-size:.9rem; margin-bottom:5px; line-height:1.4; }
+    .tt .tt-desc  { color:#aaa; line-height:1.6; font-size:.78rem; }
+    .tt .tt-tip { margin-top:8px; padding:7px 10px;
+      background:rgba(242,204,143,.08); border:1px solid rgba(242,204,143,.15);
+      border-radius:7px; color:#f2cc8f; font-size:.72rem; line-height:1.5; }
+    .tt .tt-drive { margin-top:8px; padding:7px 10px;
+      background:rgba(116,185,232,.08); border:1px solid rgba(116,185,232,.2);
+      border-radius:7px; color:#74b9e8; font-size:.72rem; line-height:1.5;
+      display:flex; align-items:center; gap:6px; }
+    .tt .tt-drive a { color:#74b9e8; font-weight:700; text-decoration:none; }
+    .tt .tt-drive a:hover { text-decoration:underline; }
+
+    footer {
+      text-align:center; padding:1.5rem 1rem;
+      font-size:.78rem; color:var(--dim); border-top:1px solid var(--border);
+    }
+    
+    @media (max-width: 700px) {
+      .scroll-hint { display: block; }
+      .cal-outer { padding: 1rem 0 3rem; scroll-snap-type: x mandatory; }
+      .cal-inner { min-width: max-content; }
+      /* Override desktop grid columns to show exactly 1 day per screen */
+      .cal-head, .cal-body { grid-template-columns: var(--time-w) repeat(5, calc(100vw - var(--time-w))); }
+      .day-col, .day-head { scroll-snap-align: start; scroll-snap-stop: always; }
+      .tt {
+        max-width: 90vw; width: 340px;
+        position: fixed;
+        left: 50% !important; top: auto !important; bottom: 20px !important;
+        transform: translate(-50%, 20px) !important;
+      }
+      .tt.show { transform: translate(-50%, 0) !important; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🏝️ 濟州島行程總覽</h1>
+    <p>4/9 (四) – 4/13 (一) ・ 5天4夜 ・ 全家自駕</p>
+  </div>
+  <a class="back-btn" href="index.html">← 回首頁</a>
+</header>
+
+<!-- Legend: event types -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#546e7a"></div>交通移動</div>
+  <div class="legend-item meal"><div class="legend-dot" style="background:#e07b30"></div>餐食（早/午/晚）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3a86c8"></div>景點參觀</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div>體驗活動</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d4a843"></div>咖啡小食</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#8e44ad"></div>購物逛街</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#607d8b"></div>飯店休息</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#00b894"></div>班機</div>
+</div>
+<!-- Legend: time bands -->
+<div class="band-legend">
+  <div class="band-legend-item">
+    <div class="band-swatch" style="background:rgba(230,180,60,0.4);border:1px solid rgba(230,180,60,0.6)"></div>
+    12:00–13:00 建議午餐時段
+  </div>
+  <div class="band-legend-item">
+    <div class="band-swatch" style="background:rgba(220,100,60,0.35);border:1px solid rgba(220,100,60,0.6)"></div>
+    18:00–19:00 建議晚餐時段
+  </div>
+  <div class="band-legend-item" style="margin-left:8px;">
+    <span style="font-size:.8rem;">🚗</span> 色塊間可點擊開啟 Naver 地圖導航
+  </div>
+</div>
+
+<p class="scroll-hint">← 左右滑動查看所有天 →</p>
+
+<div class="cal-outer">
+  <div class="cal-inner">
+    <div class="cal-head" id="calHead"><div class="corner"></div></div>
+    <div class="cal-body" id="calBody"></div>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div class="tt" id="tt">
+  <div class="tt-time"  id="tt-time"></div>
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-desc"  id="tt-desc"></div>
+  <div class="tt-tip"   id="tt-tip"   style="display:none"></div>
+  <div class="tt-drive" id="tt-drive" style="display:none"></div>
+</div>
+
+<footer>🏝️ 濟州島 5天4夜 自駕行程 ・ 4/9 ~ 4/13 ・ 祝旅途愉快！</footer>
+
+<script>
+// ── Config ──
+const START_HOUR  = 8;
+const END_HOUR    = 21;
+const TOTAL_HOURS = END_HOUR - START_HOUR;
+const HOUR_PX     = 84; // must match --hour-h
+
+function toFrac(t) {
+  const [h, m] = t.split(':').map(Number);
+  return (h + m / 60 - START_HOUR) / TOTAL_HOURS;
+}
+
+// Naver Maps directions URL
+function naverUrl(fLng, fLat, fName, tLng, tLat, tName) {
+  return `https://map.naver.com/v5/directions/${fLng},${fLat},${encodeURIComponent(fName)}/${tLng},${tLat},${encodeURIComponent(tName)}/-/car`;
+}
+
+// ── Highlight Time Bands (全欄) ──
+// start/end: "HH:MM", color: CSS color string, label, borderColor
+const HIGHLIGHT_BANDS = [
+  { start: '12:00', end: '13:00',
+    color: 'rgba(230,180,60,0.13)', borderColor: 'rgba(230,180,60,0.55)',
+    timeCls: 'hl-lunch' },
+  { start: '18:00', end: '19:00',
+    color: 'rgba(220,100,60,0.13)', borderColor: 'rgba(220,100,60,0.55)',
+    timeCls: 'hl-dinner' },
+];
+
+// ── Activity Type Metadata ──
+const TYPE_META = {
+  transport:  { cls: 'ec-transport',  isMeal: false },
+  breakfast:  { cls: 'ec-breakfast',  isMeal: true  },
+  lunch:      { cls: 'ec-lunch',      isMeal: true  },
+  dinner:     { cls: 'ec-dinner',     isMeal: true  },
+  attraction: { cls: 'ec-attraction', isMeal: false },
+  activity:   { cls: 'ec-activity',   isMeal: false },
+  cafe:       { cls: 'ec-cafe',       isMeal: false },
+  shopping:   { cls: 'ec-shopping',   isMeal: false },
+  hotel:      { cls: 'ec-hotel',      isMeal: false },
+  flight:     { cls: 'ec-flight',     isMeal: false },
+};
+const MEAL_BAND_COLOR = {
+  lunch:     'rgba(224,123,48,0.09)',
+  dinner:    'rgba(224,123,48,0.09)',
+  breakfast: 'rgba(224,123,48,0.09)',
+};
+
+// ── Day Colors (header accent) ──
+const DAY_COLORS = ['#e07a5f','#4ec9b0','#c39bd3','#f1948a','#74b9e8'];
+
+// ── transit helper: { dist, dur, fLng, fLat, fName, tLng, tLat, tName }
+function tr(dist, dur, fLng, fLat, fName, tLng, tLat, tName) {
+  return { dist, dur, fLng, fLat, fName, tLng, tLat, tName };
+}
+
+// ── Day Data ──
+const days = [
+  // ── Day 1 ──
+  {
+    label:'Day 1', date:'4/9 (四)', region:'東北部',
+    events:[
+      { start:'09:45', end:'11:15', type:'transport', icon:'🛬',
+        label:'抵達機場・租車',
+        desc:'辦理入境與租車手續（確認兒童安全座椅）。' },
+      { start:'11:15', end:'11:30', type:'transport', icon:'🚗',
+        label:'前往市區',
+        transit: tr('3km','約15分', 126.4930,33.5113,'제주국제공항', 126.4960,33.4946,'자매국수') },
+      { start:'11:30', end:'12:20', type:'lunch', icon:'🍜',
+        label:'午餐・姐妹麵條',
+        desc:'白湯不辣、麵條軟，老幼皆宜的豬肉湯麵名店。' },
+      { start:'12:20', end:'13:00', type:'transport', icon:'🚗',
+        label:'前往東部',
+        transit: tr('30km','約40分', 126.4960,33.4946,'자매국수', 126.6980,33.4963,'런던베이글뮤지엄 선흘점') },
+      { start:'13:00', end:'14:00', type:'activity', icon:'🥯',
+        label:'London Bagel Museum',
+        desc:'全韓最紅貝果店。',
+        tip:'不排內用，大人外帶即可，買完在旁邊看海吃。' },
+      { start:'14:00', end:'14:15', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('1km','約5分', 126.6980,33.4963,'런던베이글뮤지엄', 126.6975,33.4968,'오브젝트 선흘점') },
+      { start:'14:15', end:'15:30', type:'activity', icon:'🧶',
+        label:'Object 文創 DIY',
+        desc:'讓小孩挑布貼，DIY 專屬帆布包，體驗感超棒。' },
+      { start:'15:30', end:'15:45', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('9km','約15分', 126.6975,33.4968,'오브젝트 선흘점', 126.6672,33.5433,'오드랑베이커리') },
+      { start:'15:45', end:'16:15', type:'cafe', icon:'🥖',
+        label:'Audrant Bakery',
+        desc:'招牌大蒜法式麵包，口感爆軟、大蒜醬極香。' },
+      { start:'16:15', end:'17:00', type:'transport', icon:'🚗',
+        label:'返回市區',
+        transit: tr('32km','約45分', 126.6672,33.5433,'오드랑베이커리', 126.5229,33.5105,'제주시내 호텔') },
+      { start:'17:00', end:'18:20', type:'hotel', icon:'🏨',
+        label:'飯店 Check-in',
+        desc:'濟州市區飯店，稍作休息。' },
+      { start:'18:20', end:'18:30', type:'transport', icon:'🚶',
+        label:'步行前往商圈',
+        transit: tr('도보','約5分', 126.5229,33.5105,'제주시내 호텔', 126.5235,33.5100,'칠성로 상권') },
+      { start:'18:30', end:'19:30', type:'dinner', icon:'🍽️',
+        label:'晚餐・東門市場',
+        desc:'濟州必逛夜市市場，買橘子果汁、黑豬肉烤肉、各式夜市小吃，熱鬧氛圍。' },
+      { start:'19:30', end:'21:00', type:'shopping', icon:'🛍️',
+        label:'七星街購物',
+        desc:'濟州最熱鬧購物街，買 Nike、Adidas 等運動品牌服飾，享受夜晚街頭逛街樂趣。' },
+    ]
+  },
+  // ── Day 2 ──
+  {
+    label:'Day 2', date:'4/10 (五)', region:'東部',
+    events:[
+      { start:'09:30', end:'10:15', type:'transport', icon:'🚗',
+        label:'出發往東部',
+        desc:'約45分鐘車程。',
+        transit: tr('40km','約55分', 126.5229,33.5105,'제주시내 호텔', 126.7040,33.5011,'스누피가든') },
+      { start:'10:15', end:'12:45', type:'attraction', icon:'🌟',
+        label:'Snoopy Garden',
+        desc:'占地廣大、造景極美。',
+        tip:'搭乘免費遊園接駁小巴，長輩免走路就能看完大自然美景。' },
+      { start:'12:45', end:'13:15', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('22km','約30分', 126.7040,33.5011,'스누피가든', 126.8420,33.5103,'명진전복') },
+      { start:'13:15', end:'14:30', type:'lunch', icon:'🥘',
+        label:'午餐・明珍鮑魚',
+        desc:'無敵海景配鮑魚石鍋飯、烤鮑魚，老幼腸胃友善。' },
+      { start:'14:30', end:'14:50', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('15km','約20分', 126.8420,33.5103,'명진전복', 126.9420,33.4579,'성산일출봉') },
+      { start:'14:50', end:'15:50', type:'attraction', icon:'🌋',
+        label:'城山日出峰',
+        desc:'世界自然遺產。',
+        tip:'絕對不要攻頂！走左側免費步道，推車好走，30分鐘輕鬆解鎖地標。' },
+      { start:'15:50', end:'16:00', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('6km','約10分', 126.9420,33.4579,'성산일출봉', 126.9308,33.4278,'섭지코지') },
+      { start:'16:00', end:'16:45', type:'attraction', icon:'🌅',
+        label:'涉地可支',
+        desc:'絕美海岸線、燈塔與油菜花田/草原，長緩步道好推。',
+        tip:'走到中段可進玻璃藝術館或 Mint Cafe 喝下午茶休息。' },
+      { start:'16:45', end:'16:55', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('5km','約8分', 126.9308,33.4278,'섭지코지', 126.8950,33.4492,'프릳츠 제주성산점') },
+      { start:'16:55', end:'17:40', type:'cafe', icon:'☕',
+        label:'城山海景咖啡廳',
+        desc:'推薦 Fritz Jeju Seongsan、Orda 大草皮、Seogwipian Bakery 三選一。' },
+      { start:'17:40', end:'17:45', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('3km','約5分', 126.8950,33.4492,'프릳츠 제주성산점', 126.9220,33.4640,'성산풍천장어') },
+      { start:'17:45', end:'19:30', type:'dinner', icon:'🐟',
+        label:'晚餐・城山風川鰻魚',
+        desc:'頂級現烤淡水鰻魚，外酥內嫩。用完餐直接返回市區（約1小時）。' },
+      { start:'19:30', end:'20:30', type:'transport', icon:'🚗',
+        label:'返回市區',
+        transit: tr('60km','約60分', 126.9220,33.4640,'성산풍천장어', 126.5229,33.5105,'제주시내 호텔') },
+    ]
+  },
+  // ── Day 3 ──
+  {
+    label:'Day 3', date:'4/11 (六)', region:'西部',
+    events:[
+      { start:'09:00', end:'09:20', type:'transport', icon:'🚗',
+        label:'出發往西部',
+        desc:'約40分鐘車程。',
+        transit: tr('38km','約50分', 126.5229,33.5105,'제주시내 호텔', 126.3243,33.3891,'키즈아르떼뮤지엄') },
+      { start:'09:20', end:'11:30', type:'attraction', icon:'🖼️',
+        label:'Kids Arte Museum',
+        desc:'兒童沉浸式光影美術館，視覺超震撼，有互動繪畫投影區，全平坦室內無障礙。' },
+      { start:'11:30', end:'11:45', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('3km','約5分', 126.3243,33.3891,'키즈아르떼뮤지엄', 126.3150,33.3900,'인근 점심 식당') },
+      { start:'11:45', end:'13:00', type:'lunch', icon:'🍜',
+        label:'午餐・海鮮刀削麵',
+        desc:'西部沿線在地美食。' },
+      { start:'13:00', end:'13:30', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('10km','約15分', 126.3150,33.3900,'점심 식당', 126.2895,33.3057,'오설록 티뮤지엄') },
+      { start:'13:30', end:'15:00', type:'attraction', icon:'🍵',
+        label:"O'sulloc 雪綠茶博物館",
+        desc:'長輩看茶園美景，吃抹茶冰淇淋；小孩在 Innisfree 做手工皂 DIY。' },
+      { start:'15:00', end:'16:15', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('35km','約45分', 126.2895,33.3057,'오설록 티뮤지엄', 126.4716,33.4867,'숙성도 노형본관') },
+      { start:'16:15', end:'16:30', type:'transport', icon:'💡',
+        label:'排號碼牌',
+        desc:'先到蓮洞熟成到門口抽號碼牌，再前往亂打秀。',
+        tip:'用 CatchTable App 也可線上抽，等候2小時是常態。' },
+      { start:'16:30', end:'16:45', type:'transport', icon:'🚗',
+        label:'前往亂打秀',
+        transit: tr('2km','約5分', 126.4716,33.4867,'숙성도 노형본관', 126.4847,33.4781,'제주 난타극장') },
+      { start:'16:45', end:'18:45', type:'activity', icon:'🎭',
+        label:'亂打秀',
+        desc:'全程無台詞喜劇，靠音樂與肢體節奏，無語言隔閡，全家從頭笑到尾。' },
+      { start:'18:45', end:'19:00', type:'transport', icon:'🚗',
+        label:'返回餐廳',
+        transit: tr('2km','約5分', 126.4847,33.4781,'제주 난타극장', 126.4716,33.4867,'숙성도 노형본관') },
+      { start:'19:00', end:'21:00', type:'dinner', icon:'🥩',
+        label:'晚餐・熟成到',
+        desc:'全濟州最難排的黑豬肉名店！下午已抽牌，回來剛好無縫入座，全程專人代烤。' },
+    ]
+  },
+  // ── Day 4 ──
+  {
+    label:'Day 4', date:'4/12 (日)', region:'南部/西歸浦',
+    events:[
+      { start:'09:30', end:'10:30', type:'transport', icon:'🚗',
+        label:'出發往南部',
+        desc:'穿越漢拏山周邊道路，約1小時。',
+        transit: tr('45km','約55分', 126.5229,33.5105,'제주시내 호텔', 126.5592,33.3170,'휴애리 자연생활공원') },
+      { start:'10:30', end:'12:30', type:'attraction', icon:'🌺',
+        label:'休愛里 / 山茶花之丘',
+        desc:'春天絕美繡球花或山茶花。休愛里有餵小豬、餵兔子，步道非常平緩。' },
+      { start:'12:30', end:'13:00', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('15km','約20分', 126.5592,33.3170,'휴애리 자연생활공원', 126.5610,33.2471,'서귀포 매일올레시장') },
+      { start:'13:00', end:'14:15', type:'lunch', icon:'🥟',
+        label:'午餐・西歸浦偶來市場',
+        desc:'必買蒜泥炸雞、黑豬肉可樂餅、橘子麻糬，全家分食。' },
+      { start:'14:15', end:'14:45', type:'transport', icon:'🚗',
+        label:'移動',
+        transit: tr('17km','約25分', 126.5610,33.2471,'서귀포 매일올레시장', 126.4121,33.2545,'숙성도 중문점') },
+      { start:'14:45', end:'15:00', type:'transport', icon:'💡',
+        label:'熟成到中文店抽碼',
+        desc:'等待時間剛好去附近玩。' },
+      { start:'15:00', end:'15:30', type:'transport', icon:'🚗',
+        label:'前往景點',
+        transit: tr('15km','約20分', 126.4121,33.2545,'숙성도 중문점', 126.5635,33.2457,'천지연폭포') },
+      { start:'15:30', end:'17:15', type:'attraction', icon:'🌊',
+        label:'天地淵瀑布 + 博物館',
+        desc:'濟州唯一無階梯瀑布。或去泰迪熊博物館。' },
+      { start:'17:15', end:'17:40', type:'transport', icon:'🚗',
+        label:'返回餐廳',
+        transit: tr('15km','約20分', 126.5635,33.2457,'천지연폭포', 126.4121,33.2545,'숙성도 중문점') },
+      { start:'17:40', end:'19:15', type:'dinner', icon:'🥩',
+        label:'晚餐・熟成到中文店',
+        desc:'全濟州最頂級黑豬肉，專人代烤。' },
+      { start:'19:15', end:'20:30', type:'transport', icon:'🚗',
+        label:'返回濟州市區',
+        desc:'整理戰利品，準備明日返程。',
+        transit: tr('35km','約40分', 126.4121,33.2545,'숙성도 중문점', 126.5229,33.5105,'제주시내 호텔') },
+    ]
+  },
+  // ── Day 5 ──
+  {
+    label:'Day 5', date:'4/13 (一)', region:'返程日',
+    events:[
+      { start:'08:00', end:'08:20', type:'hotel', icon:'🧳',
+        label:'飯店退房',
+        desc:'最後確認行李、房間物品。' },
+      { start:'08:20', end:'08:35', type:'transport', icon:'🚗',
+        label:'移動去還車',
+        transit: tr('2km','約5分', 126.5229,33.5105,'제주시내 호텔', 126.4860,33.5150,'렌터카 반납') },
+      { start:'08:35', end:'08:50', type:'transport', icon:'🚗',
+        label:'還車',
+        desc:'抵達租車公司辦理還車手續。' },
+      { start:'08:50', end:'09:00', type:'transport', icon:'🚌',
+        label:'接駁車到機場',
+        desc:'拿行李前往機場。',
+        transit: tr('1km','約5分', 126.4860,33.5150,'렌터카 반납', 126.4930,33.5113,'제주국제공항') },
+      { start:'09:00', end:'10:20', type:'shopping', icon:'🛒',
+        label:'機場報到 + 免稅店',
+        desc:'辦理報到手續、逛機場免稅店、吃簡易機場早餐。' },
+      { start:'10:20', end:'11:00', type:'flight', icon:'🛫',
+        label:'班機起飛',
+        desc:'結束完美旅程，帶著滿滿回憶回家！' },
+    ]
+  },
+];
+
+// ── Build Column Headers ──
+const calHead = document.getElementById('calHead');
+days.forEach((d, i) => {
+  const div = document.createElement('div');
+  div.className = 'day-head';
+  div.innerHTML = `
+    <div class="ch-num" style="color:${DAY_COLORS[i]}">${d.label}</div>
+    <div class="ch-date">${d.date}</div>
+    <div class="ch-rgn">${d.region}</div>`;
+  calHead.appendChild(div);
+});
+
+// ── Build Body ──
+const calBody = document.getElementById('calBody');
+const totalH  = `calc(var(--hour-h) * ${TOTAL_HOURS})`;
+
+// 1. Time Column (with highlight slot classes)
+const timeCol = document.createElement('div');
+timeCol.className = 'time-col';
+for (let h = START_HOUR; h <= END_HOUR; h++) {
+  const slot = document.createElement('div');
+  slot.className = 'time-slot';
+  // Check if this hour falls in a highlight band
+  for (const band of HIGHLIGHT_BANDS) {
+    const bH = parseInt(band.start);
+    if (h === bH) { slot.classList.add(band.timeCls); break; }
+  }
+  if (h < END_HOUR) slot.textContent = String(h).padStart(2,'0') + ':00';
+  timeCol.appendChild(slot);
+}
+calBody.appendChild(timeCol);
+
+// 2. Day Columns
+days.forEach(day => {
+  const col = document.createElement('div');
+  col.className = 'day-col';
+  col.style.height = totalH;
+
+  // Hour lines
+  for (let h = 0; h < TOTAL_HOURS; h++) {
+    const line = document.createElement('div');
+    line.className = 'hour-line';
+    line.style.top = `calc(var(--hour-h) * ${h})`;
+    col.appendChild(line);
+  }
+
+  // ── Global Highlight Bands ──
+  for (const band of HIGHLIGHT_BANDS) {
+    const tf = toFrac(band.start);
+    const hf = toFrac(band.end) - tf;
+    const bDiv = document.createElement('div');
+    bDiv.className = 'time-band';
+    bDiv.style.top        = `calc(${TOTAL_HOURS} * var(--hour-h) * ${tf})`;
+    bDiv.style.height     = `calc(${TOTAL_HOURS} * var(--hour-h) * ${hf})`;
+    bDiv.style.background = band.color;
+    bDiv.style.borderLeft = `3px solid ${band.borderColor}`;
+    col.appendChild(bDiv);
+  }
+
+  // ── Meal Bands (per event tinted bg) ──
+  day.events.forEach(ev => {
+    if (!TYPE_META[ev.type].isMeal) return;
+    const tf = toFrac(ev.start);
+    const hf = toFrac(ev.end) - tf;
+    const mb = document.createElement('div');
+    mb.className = 'meal-band';
+    mb.style.top        = `calc(${TOTAL_HOURS} * var(--hour-h) * ${tf})`;
+    mb.style.height     = `calc(${TOTAL_HOURS} * var(--hour-h) * ${hf})`;
+    mb.style.background = MEAL_BAND_COLOR[ev.type] || 'rgba(255,255,255,.04)';
+    col.appendChild(mb);
+  });
+
+  // ── Events & Transit Chips ──
+  day.events.forEach((ev, idx) => {
+    const tf   = toFrac(ev.start);
+    const hf   = toFrac(ev.end) - tf;
+    const meta = TYPE_META[ev.type] || TYPE_META.attraction;
+
+    // Event block
+    const block = document.createElement('div');
+    block.className = `event ${meta.cls}${meta.isMeal ? ' is-meal' : ''}`;
+    block.style.top    = `calc(${TOTAL_HOURS} * var(--hour-h) * ${tf})`;
+    block.style.height = `calc(${TOTAL_HOURS} * var(--hour-h) * ${hf} - 4px)`;
+    const mins = hf * TOTAL_HOURS * 60;
+    if (mins < 30) block.classList.add('tiny');
+    
+    let innerHTML = `
+      <div class="ev-icon">${ev.icon}</div>
+      <div class="ev-label">${ev.label}</div>
+      <div class="ev-time">${ev.start}–${ev.end}</div>`;
+      
+    // Store transit for tooltip & render nav icon if transit payload exists
+    if (ev.transit) {
+      const url = naverUrl(ev.transit.fLng, ev.transit.fLat, ev.transit.fName,
+                           ev.transit.tLng, ev.transit.tLat, ev.transit.tName);
+      block.dataset.trDist = ev.transit.dist;
+      block.dataset.trDur  = ev.transit.dur;
+      block.dataset.trUrl  = url;
+      block.dataset.trTo   = ev.transit.tName;
+      if (mins >= 22) { // Display direct map link inside the event block if there's space
+        innerHTML += `<a href="${url}" class="ev-nav-link" title="開啟導航" target="_blank" rel="noopener">🗺️</a>`;
+      }
+    }
+    
+    block.innerHTML = innerHTML;
+    block.dataset.time  = `${ev.start} – ${ev.end}`;
+    block.dataset.title = `${ev.icon} ${ev.label}`;
+    block.dataset.desc  = ev.desc  || '';
+    block.dataset.tip   = ev.tip   || '';
+    col.appendChild(block);
+
+    // Transit chip (in the gap to next event)
+    const next = day.events[idx + 1];
+    if (ev.transit && next) {
+      const gapStart = toFrac(ev.end);
+      const gapEnd   = toFrac(next.start);
+      const gapFrac  = gapEnd - gapStart;
+      const gapPx    = gapFrac * TOTAL_HOURS * HOUR_PX;
+
+      if (gapPx >= 10) {
+        const chip = document.createElement('a');
+        chip.className = 'transit-chip';
+        if (gapPx < 22) chip.classList.add('tiny-chip');
+        chip.href   = naverUrl(ev.transit.fLng, ev.transit.fLat, ev.transit.fName,
+                               ev.transit.tLng, ev.transit.tLat, ev.transit.tName);
+        chip.target = '_blank';
+        chip.rel    = 'noopener';
+        chip.style.top    = `calc(${TOTAL_HOURS} * var(--hour-h) * ${gapStart} + 2px)`;
+        chip.style.height = `calc(${TOTAL_HOURS} * var(--hour-h) * ${gapFrac} - 4px)`;
+        chip.innerHTML = gapPx >= 26
+          ? `<span class="tc-info">🚗 ${ev.transit.dist} · ${ev.transit.dur}</span><span class="tc-nav">🗺</span>`
+          : `<span class="tc-nav">🗺</span>`;
+        col.appendChild(chip);
+      }
+    }
+  });
+
+  calBody.appendChild(col);
+});
+
+// ── Tooltip ──
+const tt      = document.getElementById('tt');
+const ttTime  = document.getElementById('tt-time');
+const ttTitle = document.getElementById('tt-title');
+const ttDesc  = document.getElementById('tt-desc');
+const ttTip   = document.getElementById('tt-tip');
+const ttDrive = document.getElementById('tt-drive');
+
+let activeTT = null;
+
+function showTT(el, cx, cy) {
+  if (activeTT === el) return;
+  ttTime.textContent  = el.dataset.time;
+  ttTitle.textContent = el.dataset.title;
+  ttDesc.textContent  = el.dataset.desc;
+  if (el.dataset.tip) { ttTip.textContent = '💡 ' + el.dataset.tip; ttTip.style.display='block'; }
+  else ttTip.style.display='none';
+  if (el.dataset.trUrl) {
+    const dest = decodeURIComponent(el.dataset.trTo || '下一站');
+    ttDrive.innerHTML = `🚗 ${el.dataset.trDist} · ${el.dataset.trDur}　<a href="${el.dataset.trUrl}" target="_blank" rel="noopener">開啟導航→${dest} 🗺</a>`;
+    ttDrive.style.display='flex';
+  } else ttDrive.style.display='none';
+
+  const isMobile = window.innerWidth <= 700;
+  if (!isMobile) {
+    const margin=14, tw=tt.offsetWidth||260, th=tt.offsetHeight||100;
+    let x=cx+margin, y=cy+margin;
+    if (x+tw > window.innerWidth -8)  x=cx-tw-margin;
+    if (y+th > window.innerHeight-8)  y=cy-th-margin;
+    tt.style.left=x+'px'; tt.style.top=y+'px';
+  }
+  tt.classList.add('show');
+  activeTT = el;
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('.event');
+  if (el) {
+    // 預防多次重複點擊相同的 event，可能只是想點裡面的導航按鈕
+    if (!e.target.closest('.ev-nav-link')) showTT(el, e.clientX, e.clientY);
+  } else if (!e.target.closest('.tt')) { 
+    tt.classList.remove('show'); 
+    activeTT = null; 
+  }
+});
+</script>
+</body>
+</html>
