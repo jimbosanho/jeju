@@ -3,1202 +3,267 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>濟州島 5天4夜 自駕行程表</title>
-  <meta name="description" content="濟州島5天4夜家庭自駕行程規劃，涵蓋美食、景點、老幼友善路線。">
+  <title>濟州島 5天4夜 自駕之旅</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    /* ====== CSS Reset & Variables ====== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --clr-bg: #f4f1ed;
-      --clr-surface: #ffffff;
-      --clr-text: #1a1a2e;
-      --clr-text-secondary: #555;
-      --clr-accent: #e07a5f;
-      --clr-accent-light: #f2cc8f;
-      --clr-teal: #3d8b85;
-      --clr-teal-light: #e0f0ef;
-      --clr-blue: #81b0d4;
-      --clr-blue-light: #dceefb;
-      --clr-purple: #9b72cf;
-      --clr-purple-light: #ede0fa;
-      --clr-pink: #d4698a;
-      --clr-pink-light: #fce4ec;
-      --clr-orange: #e07a5f;
-      --clr-orange-light: #fdebd8;
-      --clr-green: #6a9e5f;
-      --clr-green-light: #e6f2e3;
-      --radius: 16px;
-      --radius-sm: 10px;
-      --shadow: 0 4px 24px rgba(0,0,0,0.06);
-      --shadow-hover: 0 8px 32px rgba(0,0,0,0.12);
-      --transition: 0.3s cubic-bezier(.4,0,.2,1);
-
-      /* Day Colors */
-      --day1: #e07a5f;
-      --day1-bg: #fdebd8;
-      --day2: #3d8b85;
-      --day2-bg: #e0f0ef;
-      --day3: #9b72cf;
-      --day3-bg: #ede0fa;
-      --day4: #d4698a;
-      --day4-bg: #fce4ec;
-      --day5: #81b0d4;
-      --day5-bg: #dceefb;
-    }
-
-    html { scroll-behavior: smooth; }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Noto Sans TC', sans-serif;
-      background: var(--clr-bg);
-      color: var(--clr-text);
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ====== Hero Section ====== */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
       background: linear-gradient(135deg, #16222A 0%, #3A6073 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      padding: 3rem 1.5rem;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.04)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,128C672,107,768,117,864,149.3C960,181,1056,235,1152,240C1248,245,1344,203,1392,181.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom/cover;
-    }
-
-    .hero-particles {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-
-    .hero-particles span {
-      position: absolute;
-      display: block;
-      width: 6px;
-      height: 6px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 50%;
-      animation: float-up linear infinite;
-    }
-
-    @keyframes float-up {
-      0% { transform: translateY(100vh) scale(0); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 2rem;
+    .container {
       max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
     }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.5px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 4rem);
+    h1 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
       font-weight: 900;
-      color: #fff;
-      line-height: 1.2;
+      text-align: center;
       margin-bottom: 1rem;
-      text-shadow: 0 2px 30px rgba(0,0,0,0.3);
-    }
-
-    .hero h1 span {
       background: linear-gradient(135deg, #f2cc8f, #e07a5f);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
-    .hero-sub {
-      color: rgba(255,255,255,0.8);
-      font-size: clamp(0.95rem, 2vw, 1.15rem);
-      font-weight: 300;
-      line-height: 1.8;
-      margin-bottom: 2rem;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
+    p.subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.7);
       margin-bottom: 2.5rem;
+      font-size: 1.1rem;
     }
 
-    .hero-meta .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 50px;
-      font-size: 0.82rem;
-      font-weight: 400;
+    /* ====== Menu Grid ====== */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
     }
 
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, var(--clr-accent), #c45a3c);
-      color: #fff;
-      padding: 14px 36px;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 600;
+    .menu-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
       text-decoration: none;
-      transition: var(--transition);
-      box-shadow: 0 4px 20px rgba(224,122,95,0.4);
-    }
-
-    .hero-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(224,122,95,0.5);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      animation: bounce 2s infinite;
-    }
-
-    .hero-scroll svg { width: 28px; height: 28px; fill: rgba(255,255,255,0.5); }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
-    }
-
-    /* ====== Navigation Dots ====== */
-    .nav-dots {
-      position: fixed;
-      right: 1.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 100;
+      color: #fff;
+      transition: 0.3s;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-    }
-
-    .nav-dots a {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.15);
-      border: 2px solid transparent;
-      transition: var(--transition);
+      align-items: center;
+      text-align: center;
       position: relative;
+      overflow: hidden;
     }
 
-    .nav-dots a.active,
-    .nav-dots a:hover {
-      background: var(--clr-accent);
-      transform: scale(1.3);
+    .menu-card::before {
+      content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+      opacity: 0; transition: 0.3s;
     }
 
-    .nav-dots a .tooltip {
-      position: absolute;
-      right: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--clr-text);
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: var(--transition);
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border-color: rgba(255,255,255,0.3);
     }
 
-    .nav-dots a:hover .tooltip { opacity: 1; }
+    .menu-card:hover::before { opacity: 1; }
 
-    /* ====== Section Headers ====== */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
+    .menu-card .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .menu-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .menu-card p { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
 
-    .day-section {
-      padding: 4rem 0 2rem;
-    }
-
-    .day-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .day-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 56px;
-      height: 56px;
+    /* ====== To-Do List ====== */
+    .todo-section {
+      background: rgba(0, 0, 0, 0.2);
       border-radius: 16px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
+      padding: 2rem;
     }
 
-    .day-title-group { flex: 1; min-width: 200px; }
-
-    .day-title {
-      font-size: clamp(1.3rem, 3vw, 1.6rem);
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .day-subtitle {
-      font-size: 0.88rem;
-      color: var(--clr-text-secondary);
-      font-weight: 400;
-      margin-top: 4px;
-    }
-
-    /* ====== Timeline ====== */
-    .timeline {
-      position: relative;
-      padding-left: 36px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 13px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--clr-accent) 0%, rgba(0,0,0,0.06) 100%);
-      border-radius: 2px;
-    }
-
-    .timeline-item {
-      position: relative;
+    .todo-section h3 {
+      font-size: 1.3rem;
       margin-bottom: 1.5rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    .timeline-item.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .todo-list {
+      list-style: none; display: flex; flex-direction: column; gap: 12px;
     }
 
-    .timeline-dot {
-      position: absolute;
-      left: -30px;
-      top: 20px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 3px solid var(--clr-accent);
-      background: #fff;
-      z-index: 2;
-    }
-
-    .timeline-card {
-      background: var(--clr-surface);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      border-left: 4px solid transparent;
-    }
-
-    .timeline-card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateX(4px);
-    }
-
-    .timeline-time {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-
-    .timeline-card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      line-height: 1.4;
-    }
-
-    .timeline-card p {
-      font-size: 0.88rem;
-      color: var(--clr-text-secondary);
-      line-height: 1.7;
-    }
-
-    .timeline-card .tip {
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: #fef9f0;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem;
-      color: #8b6914;
-      border: 1px solid #f5e6c4;
-      line-height: 1.6;
-    }
-
-    .timeline-card .tip::before {
-      content: '💡 ';
-    }
-
-    /* Day-specific accent colors */
-    .day1 .timeline::before { background: linear-gradient(to bottom, var(--day1), rgba(0,0,0,0.06)); }
-    .day1 .timeline-dot { border-color: var(--day1); }
-    .day1 .timeline-time { background: var(--day1-bg); color: var(--day1); }
-    .day1 .timeline-card { border-left-color: var(--day1); }
-    .day1 .day-number { background: linear-gradient(135deg, var(--day1), #c45a3c); }
-
-    .day2 .timeline::before { background: linear-gradient(to bottom, var(--day2), rgba(0,0,0,0.06)); }
-    .day2 .timeline-dot { border-color: var(--day2); }
-    .day2 .timeline-time { background: var(--day2-bg); color: var(--day2); }
-    .day2 .timeline-card { border-left-color: var(--day2); }
-    .day2 .day-number { background: linear-gradient(135deg, var(--day2), #2d6b66); }
-
-    .day3 .timeline::before { background: linear-gradient(to bottom, var(--day3), rgba(0,0,0,0.06)); }
-    .day3 .timeline-dot { border-color: var(--day3); }
-    .day3 .timeline-time { background: var(--day3-bg); color: var(--day3); }
-    .day3 .timeline-card { border-left-color: var(--day3); }
-    .day3 .day-number { background: linear-gradient(135deg, var(--day3), #7a52b0); }
-
-    .day4 .timeline::before { background: linear-gradient(to bottom, var(--day4), rgba(0,0,0,0.06)); }
-    .day4 .timeline-dot { border-color: var(--day4); }
-    .day4 .timeline-time { background: var(--day4-bg); color: var(--day4); }
-    .day4 .timeline-card { border-left-color: var(--day4); }
-    .day4 .day-number { background: linear-gradient(135deg, var(--day4), #b04a6a); }
-
-    .day5 .timeline::before { background: linear-gradient(to bottom, var(--day5), rgba(0,0,0,0.06)); }
-    .day5 .timeline-dot { border-color: var(--day5); }
-    .day5 .timeline-time { background: var(--day5-bg); color: var(--day5); }
-    .day5 .timeline-card { border-left-color: var(--day5); }
-    .day5 .day-number { background: linear-gradient(135deg, var(--day5), #5a8fb8); }
-
-    /* ====== Rain Backup ====== */
-    .rain-backup {
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-      background: var(--clr-blue-light);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid rgba(129,176,212,0.3);
-    }
-
-    .rain-backup-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 18px;
+    .todo-item {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 12px 16px;
+      border-radius: 12px;
+      transition: 0.2s;
       cursor: pointer;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #3a6a8a;
-      user-select: none;
-      transition: var(--transition);
     }
 
-    .rain-backup-header:hover { background: rgba(129,176,212,0.15); }
+    .todo-item:hover { background: rgba(255,255,255,0.12); }
 
-    .rain-backup-header .arrow {
-      transition: var(--transition);
-      font-size: 0.7rem;
-      margin-left: auto;
+    .todo-item.checked {
+      background: rgba(0,0,0,0.1);
+      opacity: 0.6;
     }
+    .todo-item.checked span { text-decoration: line-through; color: rgba(255,255,255,0.5); }
 
-    .rain-backup.open .rain-backup-header .arrow { transform: rotate(180deg); }
-
-    .rain-backup-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-    }
-
-    .rain-backup.open .rain-backup-content { max-height: 500px; }
-
-    .rain-backup-content p {
-      padding: 0 18px 14px;
-      font-size: 0.84rem;
-      color: #3a6a8a;
-      line-height: 1.7;
-    }
-
-    /* ====== Tips Section ====== */
-    .tips-section {
-      padding: 3rem 0 5rem;
-    }
-
-    .tips-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .tips-header h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .tips-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-
-    .tip-card {
-      background: var(--clr-surface);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    .tip-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .tip-card .icon {
-      font-size: 2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .tip-card h4 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .tip-card p {
-      font-size: 0.82rem;
-      color: var(--clr-text-secondary);
-      line-height: 1.6;
-    }
-
-    /* ====== Quick Nav Bar ====== */
-    .quick-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(244, 241, 237, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      padding: 0;
-      transition: var(--transition);
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-
-    .quick-nav.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .quick-nav-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      padding: 0 1.25rem;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      gap: 0;
-    }
-
-    .quick-nav-inner::-webkit-scrollbar { display: none; }
-
-    .quick-nav a {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 14px 16px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--clr-text-secondary);
-      text-decoration: none;
-      white-space: nowrap;
-      border-bottom: 3px solid transparent;
-      transition: var(--transition);
-    }
-
-    .quick-nav a:hover,
-    .quick-nav a.active {
-      color: var(--clr-text);
-    }
-
-    .quick-nav a .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+    .checkbox {
+      width: 24px; height: 24px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      transition: 0.2s;
       flex-shrink: 0;
     }
 
-    /* ====== Footer ====== */
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.8rem;
-      color: var(--clr-text-secondary);
-      border-top: 1px solid rgba(0,0,0,0.06);
+    .todo-item.checked .checkbox {
+      background: #4ec9b0; border-color: #4ec9b0;
     }
 
-    /* ====== Responsive ====== */
-    @media (max-width: 768px) {
-      .nav-dots { display: none; }
-
-      .hero { min-height: 100svh; }
-
-      .day-section { padding: 3rem 0 1.5rem; }
-
-      .day-header { gap: 12px; }
-
-      .day-number { width: 48px; height: 48px; font-size: 1rem; border-radius: 12px; }
-
-      .timeline { padding-left: 28px; }
-      .timeline::before { left: 9px; }
-      .timeline-dot { left: -24px; top: 18px; width: 10px; height: 10px; }
-
-      .timeline-card { padding: 1rem 1.15rem; }
-      .timeline-card h3 { font-size: 0.95rem; }
-
-      .tips-grid { grid-template-columns: 1fr 1fr; }
-
-      .quick-nav a { padding: 12px 12px; font-size: 0.78rem; }
+    .todo-item.checked .checkbox::after {
+      content: '✓'; color: #fff; font-weight: 900; font-size: 14px;
     }
 
-    @media (max-width: 480px) {
-      .hero-meta { gap: 8px; }
-      .hero-meta .tag { font-size: 0.75rem; padding: 6px 12px; }
+    .todo-item span { flex: 1; font-size: 0.95rem; transition: 0.2s; }
 
-      .container { padding: 0 1rem; }
-
-      .tips-grid { grid-template-columns: 1fr; }
+    /* Add Task */
+    .add-task {
+      display: flex; gap: 10px; margin-top: 1rem;
     }
-
-    /* ====== Utility Animations ====== */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
+    .add-task input {
+      flex: 1; padding: 12px 16px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2);
+      color: #fff; font-family: inherit; font-size: 0.95rem; outline: none;
     }
+    .add-task input::placeholder { color: rgba(255,255,255,0.4); }
+    .add-task input:focus { border-color: #f2cc8f; }
+    .add-task button {
+      padding: 0 20px; border-radius: 12px; border: none;
+      background: #f2cc8f; color: #16222A; font-weight: 700; cursor: pointer;
+      transition: 0.2s; font-family: inherit;
+    }
+    .add-task button:hover { background: #e07a5f; color: #fff; }
+    
+    .delete-btn {
+      opacity: 0; background: none; border: none; color: #ff6b6b; cursor: pointer;
+      font-size: 1.1rem; transition: 0.2s; padding: 4px;
+    }
+    .todo-item:hover .delete-btn { opacity: 1; }
+    .delete-btn:hover { transform: scale(1.2); }
 
-    .fade-in { animation: fadeInUp 0.8s ease both; }
-    .fade-in-d1 { animation-delay: 0.1s; }
-    .fade-in-d2 { animation-delay: 0.2s; }
-    .fade-in-d3 { animation-delay: 0.3s; }
-    .fade-in-d4 { animation-delay: 0.4s; }
+    @media (max-width: 600px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .container { padding: 1.5rem; }
+    }
   </style>
 </head>
 <body>
 
-<!-- ====== Hero ====== -->
-<section class="hero" id="top">
-  <div class="hero-particles" id="particles"></div>
-  <div class="hero-content">
-    <div class="hero-badge fade-in">🏝️ 家庭旅遊企劃</div>
-    <h1 class="fade-in fade-in-d1"><span>濟州島</span><br>5天4夜 自駕行程</h1>
-    <p class="hero-sub fade-in fade-in-d2">
-      採「放射狀」玩法，每天專攻一個區域<br>
-      老幼皆宜的平緩步道 ✦ 室內體驗 ✦ 在地美食
-    </p>
-    <div class="hero-meta fade-in fade-in-d3">
-      <span class="tag">📅 4/9 – 4/13</span>
-      <span class="tag">👨‍👩‍👧 2大人 + 1小孩 + 1長輩</span>
-      <span class="tag">🚗 全程自駕</span>
-      <span class="tag">🏨 濟州市區住宿</span>
+  <div class="container">
+    <h1>🏝️ 濟州島 5天4夜</h1>
+    <p class="subtitle">家庭旅遊企劃・行程首頁入口</p>
+
+    <div class="menu-grid">
+      <a href="schedule.html" class="menu-card">
+        <div class="icon">📅</div>
+        <h2>行程週曆預覽</h2>
+        <p>橫式時間軸，一眼掌握每天作息與時段安排，附導航捷徑。</p>
+      </a>
+      
+      <a href="daily.html" class="menu-card">
+        <div class="icon">🗺️</div>
+        <h2>詳細行程清單</h2>
+        <p>直式詳細解說，包含景點介紹、雨備方案與行前提醒事項。</p>
+      </a>
     </div>
-    <a href="#day1" class="hero-cta fade-in fade-in-d4">瀏覽行程 ↓</a>
-  </div>
-  <div class="hero-scroll">
-    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
-  </div>
-</section>
 
-<!-- ====== Quick Nav ====== -->
-<nav class="quick-nav" id="quickNav">
-  <div class="quick-nav-inner">
-    <a href="#day1"><span class="dot" style="background:var(--day1)"></span>Day 1</a>
-    <a href="#day2"><span class="dot" style="background:var(--day2)"></span>Day 2</a>
-    <a href="#day3"><span class="dot" style="background:var(--day3)"></span>Day 3</a>
-    <a href="#day4"><span class="dot" style="background:var(--day4)"></span>Day 4</a>
-    <a href="#day5"><span class="dot" style="background:var(--day5)"></span>Day 5</a>
-    <a href="#tips">💡 提醒</a>
-  </div>
-</nav>
-
-<!-- ====== Side Nav Dots (Desktop) ====== -->
-<div class="nav-dots" id="navDots">
-  <a href="#day1" data-day="1"><span class="tooltip">Day 1 東北岸</span></a>
-  <a href="#day2" data-day="2"><span class="tooltip">Day 2 東部</span></a>
-  <a href="#day3" data-day="3"><span class="tooltip">Day 3 西部</span></a>
-  <a href="#day4" data-day="4"><span class="tooltip">Day 4 南部</span></a>
-  <a href="#day5" data-day="5"><span class="tooltip">Day 5 返程</span></a>
-</div>
-
-<main>
-
-<!-- ====== DAY 1 ====== -->
-<section class="day-section day1 container" id="day1">
-  <div class="day-header">
-    <div class="day-number">D1</div>
-    <div class="day-title-group">
-      <h2 class="day-title">抵達與東北岸人氣名店連線</h2>
-      <p class="day-subtitle">4/9 (三) ・ 東北部 ・ 下機後直奔最夯名店，傍晚舊濟州晚餐與購物</p>
+    <div class="todo-section">
+      <h3>📝 行前待辦清單 (To-Do List)</h3>
+      <ul class="todo-list" id="todo-list">
+        <!-- JS generates list here -->
+      </ul>
+      <form class="add-task" id="todo-form">
+        <input type="text" id="todo-input" placeholder="新增待辦事項..." required>
+        <button type="submit">新增</button>
+      </form>
     </div>
   </div>
-  <div class="timeline">
 
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🛬 09:45</div>
-        <h3>抵達濟州機場</h3>
-        <p>辦理入境與租車手續（務必確認兒童安全座椅）。</p>
-      </div>
-    </div>
+  <script>
+    const defaultTodos = [
+      { id: 1, text: "確認護照效期 (滿6個月以上)", checked: false },
+      { id: 2, text: "辦理國際駕照 (監理所)", checked: false },
+      { id: 3, text: "預約租車 (確認包含兒童安全座椅)", checked: false },
+      { id: 4, text: "網卡/Wi-Fi 分享器預訂", checked: false },
+      { id: 5, text: "申請 K-ETA (目前台灣延期免辦，請作最後確認)", checked: false },
+      { id: 6, text: "下載 Naver Map 並設定常用地點", checked: false },
+      { id: 7, text: "換匯 (準備部分韓元現金)", checked: false },
+      { id: 8, text: "購買旅遊平安險/不便險", checked: false },
+      { id: 9, text: "班機出發前 24h Web Check-in", checked: false },
+    ];
 
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🍜 11:30</div>
-        <h3>午餐：姐妹麵條 (자매국수)</h3>
-        <p>白湯不辣、麵條軟，老幼皆宜的經典豬肉湯麵名店。</p>
-      </div>
-    </div>
+    let todos = JSON.parse(localStorage.getItem('jejuTodos'));
+    if (!todos) { todos = defaultTodos; }
 
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🥯 13:00</div>
-        <h3>London Bagel Museum 濟州店</h3>
-        <p>全韓最紅貝果店。</p>
-        <div class="tip">帶長輩小孩<strong>不要</strong>排內用，大人去點「外帶 (Take out)」速度超快，買完直接在旁邊看海吃。</div>
-      </div>
-    </div>
+    const listEl = document.getElementById('todo-list');
+    const formEl = document.getElementById('todo-form');
+    const inputEl = document.getElementById('todo-input');
 
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🧶 14:30</div>
-        <h3>Object 嚴選文創店 Jeju</h3>
-        <p>讓5歲小孩親自挑選喜歡的布貼，DIY專屬的「帆布小包/提袋」，非常棒的體驗。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🥖 16:00</div>
-        <h3>Audrant Bakery (오드랑베이커리)</h3>
-        <p>買剛出爐的招牌「大蒜法式麵包 (마늘바게트)」，口感爆軟、大蒜醬極香。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🏨 17:00</div>
-        <h3>前往飯店 Check-in</h3>
-        <p>濟州市區飯店，稍作休息。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🛍️ 18:30</div>
-        <h3>七星街商圈 ＋ 東門市場</h3>
-        <p>七星街買運動品牌鞋子服飾，走去旁邊的東門市場買橘子果汁、吃夜市小吃，或是找間道地的<strong>濟州黑豬肉烤肉</strong>坐下來好好吃一頓。</p>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="rain-backup" onclick="this.classList.toggle('open')">
-    <div class="rain-backup-header">
-      ☔ Day 1 雨天備案
-      <span class="arrow">▼</span>
-    </div>
-    <div class="rain-backup-content">
-      <p>倫敦貝果與 Object 皆為室內不影響。若雨大無法去咸德海灘，直接在咸德海岸的超大型海景咖啡廳（如 Cafe Delmoondo）舒適地看海浪拍打，長輩跟小孩喝飲料吃大蒜麵包，提早回市區逛地下街（濟州中央地下商街，完全避雨）。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ====== DAY 2 ====== -->
-<section class="day-section day2 container" id="day2">
-  <div class="day-header">
-    <div class="day-number">D2</div>
-    <div class="day-title-group">
-      <h2 class="day-title">史努比與東海岸神級美食</h2>
-      <p class="day-subtitle">4/10 (四) ・ 東部 ・ 內陸史努比 ➡️ 鮑魚 ➡️ 城山鰻魚</p>
-    </div>
-  </div>
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚗 09:30</div>
-        <h3>飯店出發往東部</h3>
-        <p>約45分鐘車程，家人可在車上稍憩。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🌟 10:15</div>
-        <h3>Snoopy Garden (스누피가든)</h3>
-        <p>占地廣大、造景極美。</p>
-        <div class="tip">戶外庭園區域一定要搭乘「免費遊園接駁小巴」，長輩免走路就能看完大自然美景，小孩找公仔瘋狂放電。</div>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🥘 13:00</div>
-        <h3>午餐：明珍鮑魚 (명진전복)</h3>
-        <p>無敵海景配熱騰騰的「鮑魚石鍋飯」與「烤鮑魚」，營養滿分且極度友善老幼腸胃。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🌋 14:30</div>
-        <h3>城山日出峰 (성산일출봉)</h3>
-        <p>濟州島最具代表性的世界自然遺產。</p>
-        <div class="tip"><strong>絕對不要買票攻頂！</strong>直接走左側的「免費步道」，平緩木棧道與草地，近距離看遼闊海景，推車好走，逛一圈拍照約30分鐘，輕鬆解鎖地標。</div>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🌅 15:30</div>
-        <h3>涉地可支 (섭지코지)</h3>
-        <p>絕美的海岸線、燈塔與一望無際的油菜花田/草原。步道廣闊平緩，推車好推。中段有 Yumin Art Nouveau Collection（玻璃藝術館）或 Mint Cafe 可讓長輩小孩進去喝海景下午茶休息。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">☕ 16:30</div>
-        <h3>城山海景咖啡廳</h3>
-        <p>推薦距離晚餐店開車不到10分鐘的名店：</p>
-        <p style="margin-top:6px;">
-          <strong>① Fritz Jeju Seongsan</strong> — 韓國超紅「海豹咖啡廳」濟州分店，復古質感裝潢，直面城山日出峰的無敵海景。<br>
-          <strong>② Orda</strong> — 極寬敞戶外草皮與「天國的階梯」造景，小孩在草皮上放風，大人狂拍美照。<br>
-          <strong>③ Seogwipian Bakery</strong> — 巨型海景烘焙坊，室內座位極多，遇風大雨大的完美選擇。
-        </p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🐟 17:30</div>
-        <h3>晚餐：城山風川鰻魚 (성산풍천장어)</h3>
-        <p>頂級現烤淡水鰻魚，外酥內嫩，幫長輩補充這趟東部之旅的滿滿體力。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚗 19:30</div>
-        <h3>返回濟州市區</h3>
-        <p>車程約1小時，家人剛好在車上熟睡。</p>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="rain-backup" onclick="this.classList.toggle('open')">
-    <div class="rain-backup-header">
-      ☔ Day 2 雨天備案
-      <span class="arrow">▼</span>
-    </div>
-    <div class="rain-backup-content">
-      <p>水族館與兩間餐廳皆為完美室內行程。若 Snoopy Garden 戶外區因雨不便探索，可增加在水族館停留的時間，或順路安排<strong>海女博物館 (해녀박물관)</strong>，全室內且有兒童體驗室，讓幼童透過遊戲認識海女文化。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ====== DAY 3 ====== -->
-<section class="day-section day3 container" id="day3">
-  <div class="day-header">
-    <div class="day-number">D3</div>
-    <div class="day-title-group">
-      <h2 class="day-title">沉浸光影、綠茶與亂打秀</h2>
-      <p class="day-subtitle">4/11 (五) ・ 西部 ・ 室內體驗為主，傍晚接無台詞喜劇與蓮洞商圈</p>
-    </div>
-  </div>
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚗 10:00</div>
-        <h3>飯店出發往西部</h3>
-        <p>約40分鐘車程。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🖼️ 10:40</div>
-        <h3>Arte Museum 沉浸式光影美術館</h3>
-        <p>視覺超級震撼，小孩有互動繪畫投影區可以玩。舊工廠改建，全平坦室內無障礙。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🍜 12:30</div>
-        <h3>午餐：海鮮刀削麵 或 炸豬排</h3>
-        <p>西部沿線在地美食推薦。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🍵 14:00</div>
-        <h3>O'sulloc 雪綠茶博物館 & Innisfree 濟州小屋</h3>
-        <p>長輩看茶園美景，大家吃濃郁抹茶冰淇淋。帶5歲小童進 Innisfree 體驗「手工皂DIY」。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">💡 15:30</div>
-        <h3>熟成到排隊神操作</h3>
-        <p>先開車到蓮洞門口機台抽號碼牌（或用 CatchTable App 線上抽），等候2小時是常態。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🎭 17:00</div>
-        <h3>觀賞濟州亂打秀</h3>
-        <p>全程無台詞喜劇，靠音樂與肢體節奏，沒有語言隔閡，長輩小孩都會從頭笑到尾。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🛍️ 18:30</div>
-        <h3>蓮洞商圈 / 寶健路 ＋ 晚餐</h3>
-        <p><strong>熟成到 盧衡本館 (숙성도 노형본관)</strong> — 全濟州島最難排的黑豬肉名店！因已在15:30提早抽號碼牌，看完秀回來剛好無縫接軌入座。全程專人代烤，肉質極其軟嫩。</p>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="rain-backup" onclick="this.classList.toggle('open')">
-    <div class="rain-backup-header">
-      ☔ Day 3 雨天備案
-      <span class="arrow">▼</span>
-    </div>
-    <div class="rain-backup-content">
-      <p>這一天的行程（Arte美術館、雪綠茶室內區、手工皂DIY、亂打秀、熟成到晚餐、超市購物）<strong>本身就是最強的100%室內雨天備案</strong>！所以若不幸遇到下雨，這天的行程可以毫無阻礙地開心度過。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ====== DAY 4 ====== -->
-<section class="day-section day4 container" id="day4">
-  <div class="day-header">
-    <div class="day-number">D4</div>
-    <div class="day-title-group">
-      <h2 class="day-title">南部奇景全家歡與生態美景</h2>
-      <p class="day-subtitle">4/12 (六) ・ 南部/西歸浦 ・ 無階梯瀑布、市場小吃、療癒手作</p>
-    </div>
-  </div>
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚗 09:30</div>
-        <h3>飯店出發往南部</h3>
-        <p>穿過漢拏山周邊道路往南，約1小時。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🌺 10:45</div>
-        <h3>休愛里自然生活公園 或 山茶花之丘</h3>
-        <p>南部最知名的兩大庭園！春天有絕美的繡球花或山茶花。休愛里有黑豬溜滑梯與餵小豬、餵兔子活動，5歲小孩保證瘋狂；長輩盡情在花海中拍照。園區內步道非常平緩。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🥟 12:30</div>
-        <h3>午餐：西歸浦每日偶來市場</h3>
-        <p>市場內乾淨且有座位。必買蒜泥炸雞、黑豬肉可樂餅、橘子麻糬等大家一起分食。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">💡 14:30</div>
-        <h3>熟成到 中文店排隊抽號碼牌</h3>
-        <p>若不想在 Day 3 市區吃，極度推薦把「熟成到」改在今天！</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🌊 15:00</div>
-        <h3>天地淵瀑布 ＋ 泰迪熊博物館</h3>
-        <p>等待烤肉的1.5~2小時，去附近天地淵瀑布散步（濟州唯一全程無階梯瀑布，推車長輩0負擔），或帶5歲小孩看泰迪熊博物館。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🥩 17:30</div>
-        <h3>晚餐：熟成到 中文店</h3>
-        <p>等待時間完美利用完畢！直接入座吃全濟州島最頂級的黑豬肉（專人全程代烤，極度軟嫩，老小超好入口）。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚗 19:00</div>
-        <h3>返回濟州市區</h3>
-        <p>整理戰利品準備明日返程。</p>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="rain-backup" onclick="this.classList.toggle('open')">
-    <div class="rain-backup-header">
-      ☔ Day 4 雨天備案
-      <span class="arrow">▼</span>
-    </div>
-    <div class="rain-backup-content">
-      <p><strong>上午</strong>：取消戶外庭園，改去中文觀光區的 Joanne Bear Museum（喬安泰迪熊博物館）或 Moomin Land（嚕嚕米樂園），全室內且極具童趣，長輩也能坐著喝咖啡。</p>
-      <p><strong>下午</strong>：市場有遮雨棚不受影響；若雨勢過大不便去瀑布，改去室內的 O'sulloc 雪綠茶博物館（若前一天沒去）或是去西歸浦的景觀咖啡廳看雨中海景。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ====== DAY 5 ====== -->
-<section class="day-section day5 container" id="day5">
-  <div class="day-header">
-    <div class="day-number">D5</div>
-    <div class="day-title-group">
-      <h2 class="day-title">準備返程</h2>
-      <p class="day-subtitle">4/13 (日) ・ 早班機不疾不徐的從容收心</p>
-    </div>
-  </div>
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🧳 08:00</div>
-        <h3>飯店退房</h3>
-        <p>最後確認行李、房間物品。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚗 08:20</div>
-        <h3>辦理還車手續</h3>
-        <p>抵達租車公司歸還車輛。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🚌 08:40</div>
-        <h3>搭接駁車到機場</h3>
-        <p>拿行李前往機場。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🛒 09:00</div>
-        <h3>機場報到＋免稅店</h3>
-        <p>辦理報到手續、逛機場免稅店、吃簡易機場早餐。</p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-time">🛫 10:20</div>
-        <h3>班機起飛</h3>
-        <p>結束完美旅程，帶著滿滿回憶回家！</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ====== Tips ====== -->
-<section class="tips-section container" id="tips">
-  <div class="tips-header">
-    <h2>💡 長幼同遊溫馨提醒</h2>
-  </div>
-  <div class="tips-grid">
-    <div class="tip-card">
-      <div class="icon">🧥</div>
-      <h4>防風保暖</h4>
-      <p>濟州島風大尤其海邊，4月天氣微涼，務必準備好「防風薄外套」及「帽子」給長者與幼兒。</p>
-    </div>
-    <div class="tip-card">
-      <div class="icon">😴</div>
-      <h4>彈性休息</h4>
-      <p>中午吃飽飯後的拉車時間（約40-60分鐘），剛好是老人幼童最佳的「車內午睡補充體力時光」。</p>
-    </div>
-    <div class="tip-card">
-      <div class="icon">💊</div>
-      <h4>醫療備品</h4>
-      <p>建議自備常備藥物（幼童退燒藥、腸胃藥等），濟州市區晚上藥局語言不通。可拍常備藥照片備用。</p>
-    </div>
-    <div class="tip-card">
-      <div class="icon">🍪</div>
-      <h4>準備小零食</h4>
-      <p>路途中隨時備好小孩愛吃的餅乾與水，排隊等待或車程較長時非常有用。</p>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  <p>🏝️ 濟州島 5天4夜 自駕行程 ・ 4/9 ~ 4/13 ・ 祝旅途愉快！</p>
-</footer>
-
-<script>
-  // ====== Particles ======
-  (function () {
-    const container = document.getElementById('particles');
-    for (let i = 0; i < 30; i++) {
-      const span = document.createElement('span');
-      span.style.left = Math.random() * 100 + '%';
-      span.style.width = span.style.height = (Math.random() * 6 + 3) + 'px';
-      span.style.animationDuration = (Math.random() * 8 + 6) + 's';
-      span.style.animationDelay = (Math.random() * 6) + 's';
-      container.appendChild(span);
+    function render() {
+      listEl.innerHTML = '';
+      todos.forEach(todo => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.checked ? 'checked' : ''}`;
+        li.innerHTML = `
+          <div class="checkbox"></div>
+          <span>${todo.text}</span>
+          <button class="delete-btn" aria-label="刪除">✖</button>
+        `;
+        
+        li.addEventListener('click', (e) => {
+          if(e.target.classList.contains('delete-btn')) {
+            todos = todos.filter(t => t.id !== todo.id);
+          } else {
+            todo.checked = !todo.checked;
+          }
+          save(); render();
+        });
+        
+        listEl.appendChild(li);
+      });
     }
-  })();
 
-  // ====== Scroll Animations ======
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+    function save() {
+      localStorage.setItem('jejuTodos', JSON.stringify(todos));
+    }
+
+    formEl.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = inputEl.value.trim();
+      if(text) {
+        todos.push({ id: Date.now(), text, checked: false });
+        inputEl.value = '';
+        save(); render();
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
-
-  // ====== Quick Nav Show/Hide ======
-  const quickNav = document.getElementById('quickNav');
-  const heroSection = document.querySelector('.hero');
-
-  const heroObserver = new IntersectionObserver(([entry]) => {
-    quickNav.classList.toggle('show', !entry.isIntersecting);
-  }, { threshold: 0 });
-
-  heroObserver.observe(heroSection);
-
-  // ====== Active Nav Highlight ======
-  const sections = document.querySelectorAll('.day-section, .tips-section');
-  const navLinks = document.querySelectorAll('.quick-nav a');
-  const dotLinks = document.querySelectorAll('.nav-dots a');
-
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-        dotLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-      }
-    });
-  }, { threshold: 0.3 });
-
-  sections.forEach(s => sectionObserver.observe(s));
-</script>
+    render();
+  </script>
 
 </body>
 </html>
