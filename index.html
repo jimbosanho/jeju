@@ -3,267 +3,1082 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>濟州島 5天4夜 自駕之旅</title>
+  <title>Jeju Escape｜濟州島 5天4夜旅行提案</title>
+  <meta name="description" content="乾淨、高級、帶有旅遊感的濟州島 5 天 4 夜首頁，快速進入詳細行程、週曆總覽與行前準備。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #f5f0e8;
+      --sand: #e8dccb;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-strong: rgba(255, 255, 255, 0.88);
+      --ink: #1d2430;
+      --muted: #5f6b75;
+      --line: rgba(29, 36, 48, 0.08);
+      --accent: #bf7b4b;
+      --accent-deep: #8a5736;
+      --sea: #365f73;
+      --gold: #d8b17a;
+      --shadow: 0 24px 60px rgba(29, 36, 48, 0.10);
+      --shadow-soft: 0 18px 36px rgba(29, 36, 48, 0.08);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --container: 1160px;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       font-family: 'Noto Sans TC', sans-serif;
-      background: linear-gradient(135deg, #16222A 0%, #3A6073 100%);
-      color: #fff;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(216,177,122,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(54,95,115,0.15), transparent 26%),
+        linear-gradient(180deg, #efe6da 0%, #f7f3ee 34%, #f5f0e8 100%);
       min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-      padding: 3rem 1.5rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 800px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    .shell {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 20;
       backdrop-filter: blur(16px);
-      border-radius: 24px;
-      padding: 2.5rem;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+      background: rgba(245, 240, 232, 0.68);
+      border-bottom: 1px solid rgba(29, 36, 48, 0.05);
     }
 
-    h1 {
-      font-size: clamp(2rem, 5vw, 2.8rem);
-      font-weight: 900;
-      text-align: center;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #f2cc8f, #e07a5f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    p.subtitle {
-      text-align: center;
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 2.5rem;
-      font-size: 1.1rem;
-    }
-
-    /* ====== Menu Grid ====== */
-    .menu-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    .menu-card {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      padding: 2rem;
-      text-decoration: none;
-      color: #fff;
-      transition: 0.3s;
+    .topbar-inner {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      text-align: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--sea), #274a5d);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .brand-copy small {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.6);
+      color: var(--ink);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .pill:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+      background: rgba(255,255,255,0.92);
+    }
+
+    .pill.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .hero {
+      padding: 42px 0 22px;
+    }
+
+    .hero-panel {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-visual {
       position: relative;
       overflow: hidden;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.45);
     }
 
-    .menu-card::before {
-      content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-      opacity: 0; transition: 0.3s;
+    .hero-copy {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)),
+        linear-gradient(135deg, rgba(216,177,122,0.12), rgba(54,95,115,0.08));
+      padding: 42px;
     }
 
-    .menu-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      border-color: rgba(255,255,255,0.3);
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(191,123,75,0.10);
+      color: var(--accent-deep);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
-    .menu-card:hover::before { opacity: 1; }
-
-    .menu-card .icon { font-size: 3rem; margin-bottom: 1rem; }
-    .menu-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .menu-card p { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
-
-    /* ====== To-Do List ====== */
-    .todo-section {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 16px;
-      padding: 2rem;
+    .hero h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(2.3rem, 4.9vw, 4.4rem);
+      line-height: 1.14;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 18px;
     }
 
-    .todo-section h3 {
+    .hero h1 span {
+      color: var(--accent-deep);
+    }
+
+    .hero p.lead {
+      font-size: 1.02rem;
+      color: var(--muted);
+      max-width: 58ch;
+      margin-bottom: 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .meta-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(29,36,48,0.08);
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cta.primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--sea), #274a5d);
+    }
+
+    .cta.secondary {
+      color: var(--ink);
+      background: rgba(255,255,255,0.82);
+      border-color: rgba(29,36,48,0.08);
+    }
+
+    .hero-note {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .note-card {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.66);
+      border: 1px solid rgba(29,36,48,0.06);
+    }
+
+    .note-card strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .note-card span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .hero-visual {
+      min-height: 620px;
+      background:
+        linear-gradient(180deg, rgba(17,36,48,0.08), rgba(17,36,48,0.26)),
+        radial-gradient(circle at 30% 22%, rgba(255,255,255,0.45), transparent 18%),
+        linear-gradient(160deg, #7694a4 0%, #406175 42%, #1d2f3e 100%);
+      padding: 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: stretch;
+    }
+
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      inset: auto -8% -14% auto;
+      width: 72%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 65%);
+      pointer-events: none;
+    }
+
+    .visual-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.28)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'%3E%3Cpath d='M120 615c82-94 160-112 236-64 58 36 126 33 193-18 48-37 87-50 131-42'/%3E%3Cpath d='M86 668c79-77 154-95 228-52 70 41 138 42 214-4 61-38 105-47 186-28'/%3E%3Cpath d='M155 557c74-55 150-66 230-25 67 35 126 35 192-7 54-34 99-44 155-30'/%3E%3C/g%3E%3C/svg%3E") center/cover;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .visual-card-stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .glass-card {
+      border-radius: 24px;
+      padding: 22px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(14px);
+      color: #fff;
+    }
+
+    .glass-card small {
+      display: block;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      opacity: 0.72;
+      margin-bottom: 8px;
+    }
+
+    .glass-card h2 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.7rem;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .glass-card p {
+      color: rgba(255,255,255,0.82);
+      font-size: 0.95rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.16);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
       font-size: 1.3rem;
-      margin-bottom: 1.5rem;
-      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .stat span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .section {
+      padding: 22px 0 12px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-end;
+      margin-bottom: 18px;
+    }
+
+    .section-head h3 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+      margin-bottom: 8px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 58ch;
+    }
+
+    .kpi-grid,
+    .entry-grid,
+    .curation-grid,
+    .todo-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .kpi-grid {
+      grid-template-columns: repeat(4, 1fr);
+      margin-bottom: 8px;
+    }
+
+    .kpi-card,
+    .entry-card,
+    .curation-card,
+    .todo-panel {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .kpi-card {
+      padding: 24px;
+    }
+
+    .kpi-card strong {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--sea);
+    }
+
+    .kpi-card h4 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .kpi-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .entry-grid {
+      grid-template-columns: 1.2fr 1.2fr 0.9fr;
+      align-items: stretch;
+    }
+
+    .entry-card {
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .entry-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: rgba(191,123,75,0.24);
+    }
+
+    .entry-card::after {
+      content: '';
+      position: absolute;
+      inset: auto -24px -24px auto;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(216,177,122,0.22), transparent 70%);
+      pointer-events: none;
+    }
+
+    .entry-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    }
+
+    .entry-card.schedule .entry-icon { background: linear-gradient(135deg, rgba(54,95,115,0.16), rgba(54,95,115,0.26)); }
+    .entry-card.daily .entry-icon { background: linear-gradient(135deg, rgba(191,123,75,0.14), rgba(191,123,75,0.24)); }
+    .entry-card.guide .entry-icon { background: linear-gradient(135deg, rgba(216,177,122,0.18), rgba(216,177,122,0.28)); }
+
+    .entry-card small {
+      display: block;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .entry-card h4 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    .entry-card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+      margin-bottom: 18px;
+    }
+
+    .entry-card span.link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--accent-deep);
+    }
+
+    .curation-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .curation-card {
+      padding: 24px;
+    }
+
+    .curation-card h4 {
+      font-size: 1.02rem;
+      margin-bottom: 10px;
+    }
+
+    .curation-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+
+    .curation-card ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--ink);
+      font-size: 0.88rem;
+    }
+
+    .curation-card li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .curation-card li::before {
+      content: '•';
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .todo-grid {
+      grid-template-columns: 1.05fr 1fr;
+      align-items: start;
+      margin-bottom: 44px;
+    }
+
+    .todo-panel {
+      padding: 28px;
+    }
+
+    .todo-panel h4 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .todo-panel p.desc {
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: 0.92rem;
     }
 
     .todo-list {
-      list-style: none; display: flex; flex-direction: column; gap: 12px;
+      list-style: none;
+      display: grid;
+      gap: 10px;
     }
 
     .todo-item {
-      display: flex; align-items: center; gap: 12px;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 12px 16px;
-      border-radius: 12px;
-      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(29,36,48,0.07);
+      transition: background .2s ease, transform .2s ease, opacity .2s ease;
       cursor: pointer;
     }
 
-    .todo-item:hover { background: rgba(255,255,255,0.12); }
+    .todo-item:hover {
+      transform: translateX(2px);
+      background: rgba(255,255,255,0.95);
+    }
 
     .todo-item.checked {
-      background: rgba(0,0,0,0.1);
-      opacity: 0.6;
+      opacity: 0.68;
+      background: rgba(232,220,203,0.55);
     }
-    .todo-item.checked span { text-decoration: line-through; color: rgba(255,255,255,0.5); }
+
+    .todo-item.checked .todo-text {
+      text-decoration: line-through;
+      color: #7a827f;
+    }
 
     .checkbox {
-      width: 24px; height: 24px;
-      border: 2px solid rgba(255,255,255,0.4);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      transition: 0.2s;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(54,95,115,0.35);
       flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.96);
     }
 
     .todo-item.checked .checkbox {
-      background: #4ec9b0; border-color: #4ec9b0;
+      background: linear-gradient(135deg, var(--sea), #274a5d);
+      border-color: transparent;
+      color: #fff;
     }
 
-    .todo-item.checked .checkbox::after {
-      content: '✓'; color: #fff; font-weight: 900; font-size: 14px;
+    .todo-item.checked .checkbox::before {
+      content: '✓';
+      font-size: 0.82rem;
+      font-weight: 800;
     }
 
-    .todo-item span { flex: 1; font-size: 0.95rem; transition: 0.2s; }
+    .todo-text {
+      flex: 1;
+      font-size: 0.94rem;
+    }
 
-    /* Add Task */
-    .add-task {
-      display: flex; gap: 10px; margin-top: 1rem;
-    }
-    .add-task input {
-      flex: 1; padding: 12px 16px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2);
-      color: #fff; font-family: inherit; font-size: 0.95rem; outline: none;
-    }
-    .add-task input::placeholder { color: rgba(255,255,255,0.4); }
-    .add-task input:focus { border-color: #f2cc8f; }
-    .add-task button {
-      padding: 0 20px; border-radius: 12px; border: none;
-      background: #f2cc8f; color: #16222A; font-weight: 700; cursor: pointer;
-      transition: 0.2s; font-family: inherit;
-    }
-    .add-task button:hover { background: #e07a5f; color: #fff; }
-    
     .delete-btn {
-      opacity: 0; background: none; border: none; color: #ff6b6b; cursor: pointer;
-      font-size: 1.1rem; transition: 0.2s; padding: 4px;
+      border: none;
+      background: transparent;
+      color: #b76a5d;
+      font-size: 1rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .2s ease, transform .2s ease;
     }
-    .todo-item:hover .delete-btn { opacity: 1; }
-    .delete-btn:hover { transform: scale(1.2); }
 
-    @media (max-width: 600px) {
-      .menu-grid { grid-template-columns: 1fr; }
-      .container { padding: 1.5rem; }
+    .todo-item:hover .delete-btn { opacity: 1; }
+    .delete-btn:hover { transform: scale(1.12); }
+
+    .add-task {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .add-task input {
+      flex: 1;
+      border-radius: 16px;
+      border: 1px solid rgba(29,36,48,0.10);
+      background: rgba(255,255,255,0.88);
+      padding: 14px 16px;
+      font: inherit;
+      outline: none;
+    }
+
+    .add-task input:focus {
+      border-color: rgba(54,95,115,0.45);
+      box-shadow: 0 0 0 4px rgba(54,95,115,0.08);
+    }
+
+    .add-task button {
+      border: none;
+      border-radius: 16px;
+      padding: 0 18px;
+      font: inherit;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .todo-side {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mini-card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.68));
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mini-card h5 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .mini-card p,
+    .mini-card li {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .mini-card ul {
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 8px;
+    }
+
+    footer {
+      padding: 16px 0 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-panel,
+      .entry-grid,
+      .curation-grid,
+      .todo-grid,
+      .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-visual {
+        min-height: 480px;
+      }
+
+      .entry-grid .entry-card:last-child,
+      .curation-grid .curation-card:last-child,
+      .todo-grid > *:last-child,
+      .kpi-grid .kpi-card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero-copy,
+      .hero-visual,
+      .todo-panel,
+      .mini-card,
+      .entry-card,
+      .curation-card,
+      .kpi-card {
+        padding: 22px;
+      }
+
+      .hero-panel,
+      .hero-note,
+      .entry-grid,
+      .curation-grid,
+      .todo-grid,
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 400px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .add-task {
+        flex-direction: column;
+      }
+
+      .add-task button {
+        height: 48px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>🏝️ 濟州島 5天4夜</h1>
-    <p class="subtitle">家庭旅遊企劃・行程首頁入口</p>
-
-    <div class="menu-grid">
-      <a href="schedule.html" class="menu-card">
-        <div class="icon">📅</div>
-        <h2>行程週曆預覽</h2>
-        <p>橫式時間軸，一眼掌握每天作息與時段安排，附導航捷徑。</p>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">🏝️</div>
+        <div class="brand-copy">
+          <small>Jeju Escape</small>
+          <strong>濟州島 5天4夜</strong>
+        </div>
       </a>
-      
-      <a href="daily.html" class="menu-card">
-        <div class="icon">🗺️</div>
-        <h2>詳細行程清單</h2>
-        <p>直式詳細解說，包含景點介紹、雨備方案與行前提醒事項。</p>
-      </a>
+      <div class="top-actions">
+        <a class="pill" href="daily.html">詳細行程</a>
+        <a class="pill primary" href="schedule.html">週曆總覽</a>
+      </div>
     </div>
+  </header>
 
-    <div class="todo-section">
-      <h3>📝 行前待辦清單 (To-Do List)</h3>
-      <ul class="todo-list" id="todo-list">
-        <!-- JS generates list here -->
-      </ul>
-      <form class="add-task" id="todo-form">
-        <input type="text" id="todo-input" placeholder="新增待辦事項..." required>
-        <button type="submit">新增</button>
-      </form>
-    </div>
-  </div>
+  <main>
+    <section class="hero">
+      <div class="shell hero-panel">
+        <div class="hero-copy">
+          <div class="eyebrow">Luxury family travel concept</div>
+          <h1>一場帶著海風、節奏剛剛好的 <span>濟州旅行</span></h1>
+          <p class="lead">
+            這不是塞滿景點的趕路行程，而是一份乾淨、舒服、帶點高級感的旅行提案。
+            從海岸線、人氣名店到適合長輩與孩子的步調，讓每一天都像一篇被好好編排過的旅遊雜誌。
+          </p>
+
+          <div class="hero-meta">
+            <span class="meta-chip">📅 5天4夜</span>
+            <span class="meta-chip">🚗 全程自駕</span>
+            <span class="meta-chip">👨‍👩‍👧 家庭旅行</span>
+            <span class="meta-chip">🏨 濟州市區住宿</span>
+          </div>
+
+          <div class="cta-row">
+            <a class="cta primary" href="daily.html">開始看詳細行程</a>
+            <a class="cta secondary" href="schedule.html">先看週曆總覽</a>
+          </div>
+
+          <div class="hero-note">
+            <div class="note-card">
+              <strong>東西南北分區玩</strong>
+              <span>減少折返與疲勞，旅程節奏更順。</span>
+            </div>
+            <div class="note-card">
+              <strong>保留餘裕感</strong>
+              <span>每一天都留有休息、咖啡與散步空間。</span>
+            </div>
+            <div class="note-card">
+              <strong>兼顧美感與實用</strong>
+              <span>行程好看，也真的能帶家人去走。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-overlay"></div>
+          <div class="visual-card-stack">
+            <div class="glass-card">
+              <small>Travel mood</small>
+              <h2>海岸、公路、麵包香，還有慢慢打開的濟州。</h2>
+              <p>把名店、海景、購物與輕鬆步調拼成一張舒服的旅行地圖。</p>
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <strong>5</strong>
+                <span>Days curated</span>
+              </div>
+              <div class="stat">
+                <strong>2</strong>
+                <span>Main itinerary views</span>
+              </div>
+              <div class="stat">
+                <strong>∞</strong>
+                <span>Local memories</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <strong>01</strong>
+            <h4>首頁像旅遊提案</h4>
+            <p>先把風格定調乾淨、高級、帶旅遊感，不再只是單純入口頁。</p>
+          </div>
+          <div class="kpi-card">
+            <strong>02</strong>
+            <h4>資訊一眼可讀</h4>
+            <p>重要資訊先出現，詳細內容再分流到週曆與每日頁面。</p>
+          </div>
+          <div class="kpi-card">
+            <strong>03</strong>
+            <h4>手機也舒服</h4>
+            <p>按鈕、字級與卡片層次重新整理，手機上也比較像正式網站。</p>
+          </div>
+          <div class="kpi-card">
+            <strong>04</strong>
+            <h4>保留實用功能</h4>
+            <p>行前待辦清單還在，而且繼續支援本機儲存與新增刪除。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h3>選擇你的瀏覽方式</h3>
+            <p>如果你想快看整體節奏，就先打開週曆；如果你想看景點理由、雨備和用餐安排，就進每日行程。</p>
+          </div>
+        </div>
+
+        <div class="entry-grid">
+          <a href="schedule.html" class="entry-card schedule">
+            <div class="entry-icon">📅</div>
+            <small>Overview mode</small>
+            <h4>行程週曆總覽</h4>
+            <p>用時間軸快速掌握 5 天節奏，適合先看哪天鬆、哪天滿、哪段要開車。</p>
+            <span class="link">打開週曆 →</span>
+          </a>
+
+          <a href="daily.html" class="entry-card daily">
+            <div class="entry-icon">🗺️</div>
+            <small>Editorial mode</small>
+            <h4>每日詳細行程</h4>
+            <p>包含景點特色、餐廳理由、雨天備案與家庭友善提醒，讀起來更像完整旅行提案。</p>
+            <span class="link">閱讀詳細版 →</span>
+          </a>
+
+          <div class="entry-card guide">
+            <div class="entry-icon">✨</div>
+            <small>Homepage tone</small>
+            <h4>這版首頁的重點</h4>
+            <p>視覺更輕、更有質感，也讓首頁本身就能成立，而不是只像檔案列表。</p>
+            <span class="link">Clean · Premium · Travel</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h3>這趟旅行的氣質</h3>
+            <p>濟州最迷人的地方，不只是景點，而是從一間麵店、一段海岸，到一個傍晚都很有畫面感。</p>
+          </div>
+        </div>
+
+        <div class="curation-grid">
+          <div class="curation-card">
+            <h4>海岸線的開場</h4>
+            <p>從東北岸出發，把海景咖啡、人氣麵包與能輕鬆散步的地點放進第一印象。</p>
+            <ul>
+              <li>適合拍照也適合慢慢走</li>
+              <li>不靠爆量景點堆疊滿足感</li>
+              <li>保留「到濟州了」的開場感</li>
+            </ul>
+          </div>
+          <div class="curation-card">
+            <h4>家人都能跟上的節奏</h4>
+            <p>不是只照顧行程效率，也顧到長輩、小孩、車程疲勞和臨時變動的餘裕。</p>
+            <ul>
+              <li>步道平緩、移動分區</li>
+              <li>室內外搭配，天氣變化也不怕</li>
+              <li>保留午睡、咖啡與休息點</li>
+            </ul>
+          </div>
+          <div class="curation-card">
+            <h4>高級感來自克制</h4>
+            <p>真正的高級感不是塞滿特效，而是資訊整理得乾淨，讓人一看就想出發。</p>
+            <ul>
+              <li>留白更足，閱讀更舒服</li>
+              <li>色調偏沙色、海藍、暖金</li>
+              <li>首頁本身就有旅遊雜誌感</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h3>行前清單</h3>
+            <p>保留實用面。旅遊網站可以很漂亮，但該確認的東西還是要確認。</p>
+          </div>
+        </div>
+
+        <div class="todo-grid">
+          <div class="todo-panel">
+            <h4>出發前別漏掉</h4>
+            <p class="desc">這份待辦會記在你的瀏覽器裡。勾選狀態、自己新增的項目，都會保留下來。</p>
+            <ul class="todo-list" id="todo-list"></ul>
+            <form class="add-task" id="todo-form">
+              <input type="text" id="todo-input" placeholder="新增待辦事項，例如：確認租車保險內容" required>
+              <button type="submit">新增</button>
+            </form>
+          </div>
+
+          <div class="todo-side">
+            <div class="mini-card">
+              <h5>建議優先確認</h5>
+              <ul>
+                <li>護照效期、租車條件、國際駕照</li>
+                <li>小孩座椅、網路、保險與付款方式</li>
+                <li>Naver Map、重要地點收藏與航班時間</li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h5>這個首頁接下來還能再做什麼</h5>
+              <ul>
+                <li>加入真實照片或濟州主視覺</li>
+                <li>補上住宿資訊與旅伴介紹</li>
+                <li>做成更完整的品牌型旅行網站</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Jeju Escape · 濟州島 5天4夜首頁提案 · Clean / Premium / Travel
+  </footer>
 
   <script>
     const defaultTodos = [
-      { id: 1, text: "確認護照效期 (滿6個月以上)", checked: false },
-      { id: 2, text: "辦理國際駕照 (監理所)", checked: false },
-      { id: 3, text: "預約租車 (確認包含兒童安全座椅)", checked: false },
-      { id: 4, text: "網卡/Wi-Fi 分享器預訂", checked: false },
-      { id: 5, text: "申請 K-ETA (目前台灣延期免辦，請作最後確認)", checked: false },
-      { id: 6, text: "下載 Naver Map 並設定常用地點", checked: false },
-      { id: 7, text: "換匯 (準備部分韓元現金)", checked: false },
-      { id: 8, text: "購買旅遊平安險/不便險", checked: false },
-      { id: 9, text: "班機出發前 24h Web Check-in", checked: false },
+      { id: 1, text: '確認護照效期（至少 6 個月）', checked: false },
+      { id: 2, text: '辦理國際駕照與租車文件', checked: false },
+      { id: 3, text: '確認租車包含兒童安全座椅', checked: false },
+      { id: 4, text: '準備網卡或 Wi-Fi 分享器', checked: false },
+      { id: 5, text: '下載 Naver Map 並收藏重要地點', checked: false },
+      { id: 6, text: '確認旅遊保險與信用卡付款方式', checked: false },
+      { id: 7, text: '出發前 24 小時完成 Web Check-in', checked: false }
     ];
 
     let todos = JSON.parse(localStorage.getItem('jejuTodos'));
-    if (!todos) { todos = defaultTodos; }
+    if (!todos) todos = defaultTodos;
 
     const listEl = document.getElementById('todo-list');
     const formEl = document.getElementById('todo-form');
     const inputEl = document.getElementById('todo-input');
 
+    function save() {
+      localStorage.setItem('jejuTodos', JSON.stringify(todos));
+    }
+
     function render() {
       listEl.innerHTML = '';
-      todos.forEach(todo => {
+      todos.forEach((todo) => {
         const li = document.createElement('li');
         li.className = `todo-item ${todo.checked ? 'checked' : ''}`;
         li.innerHTML = `
           <div class="checkbox"></div>
-          <span>${todo.text}</span>
-          <button class="delete-btn" aria-label="刪除">✖</button>
+          <div class="todo-text">${todo.text}</div>
+          <button class="delete-btn" aria-label="刪除">✕</button>
         `;
-        
+
         li.addEventListener('click', (e) => {
-          if(e.target.classList.contains('delete-btn')) {
-            todos = todos.filter(t => t.id !== todo.id);
+          if (e.target.classList.contains('delete-btn')) {
+            todos = todos.filter(item => item.id !== todo.id);
           } else {
             todo.checked = !todo.checked;
           }
-          save(); render();
+          save();
+          render();
         });
-        
+
         listEl.appendChild(li);
       });
-    }
-
-    function save() {
-      localStorage.setItem('jejuTodos', JSON.stringify(todos));
     }
 
     formEl.addEventListener('submit', (e) => {
       e.preventDefault();
       const text = inputEl.value.trim();
-      if(text) {
-        todos.push({ id: Date.now(), text, checked: false });
-        inputEl.value = '';
-        save(); render();
-      }
+      if (!text) return;
+      todos.push({ id: Date.now(), text, checked: false });
+      inputEl.value = '';
+      save();
+      render();
     });
 
     render();
   </script>
-
 </body>
 </html>
